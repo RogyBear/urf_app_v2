@@ -1,15 +1,18 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Dimensions, Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import * as Progress from 'react-native-progress';
+// import * as Progress from 'react-native-progress';
 import { Svg } from 'react-native-svg';
+import ProgressBar from './global-components/forms/ProgessBar';
 // import SvgDog from '../assets/icons/question-dog.js'
-export default function QuestionHeader({ color, progress, setHelp, goBack }) {
-    
+
+export default function QuestionHeader({ palette, progress, setHelp, goBack }) {
     return (
         <View style={styles.container}>
             <CloseIcon goBack={goBack}/>
-            <Progress.Bar style={{ marginBottom: 4  }} progress={progress} width={Dimensions.get('window').width /1.8} color={color} height={11} borderRadius={10000} />
+            <ProgressBar progress={progress} colors={palette.primary} style={{height: 10, borderRadius: 100, width: Dimensions.get('window').width / 1.7, backgroundColor: '#FFF' }}/>
+
+            {/* <Progress.Bar style={{ marginBottom: 4  }} progress={progress} width={Dimensions.get('window').width /1.8} color={color} height={11} borderRadius={10000} /> */}
 
             {/* <ProgressBar progress={progress} colors={Array.isArray(colors) ? colors : [colors, colors]} /> */}
             <TouchableOpacity onPress={() => setHelp(h => !h)}>

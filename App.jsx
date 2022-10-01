@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Main from "./Main";
@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 
 const getFonts = async () => {
   await Font.loadAsync({
-    "nunito": require("./assets/fonts/Nunito-Regular.ttf"),
+    Nunito: require("./assets/fonts/Nunito-Regular.ttf"),
     // "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
   });
 };
@@ -30,14 +30,18 @@ export default function App() {
   // // setLocale(deviceLanguage)
   // console.log(deviceLanguage);
 
-  const [fontsLoaded] = useFonts({ Nunito_400Regular });
 
+  const [fontsLoaded] = useFonts({'Nunito': require("./assets/fonts/Nunito-Regular.ttf")});
+
+  if (!fontsLoaded) {
+    return null;  
+  }
   return (
     <DataProvider>
       <LanguageProvider>
         <Main />
       </LanguageProvider>
-    </DataProvider>
+    </DataProvider> 
   );
 }
 

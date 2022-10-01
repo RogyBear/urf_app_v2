@@ -8,8 +8,7 @@ import Text from '../../Text'
 export default function Button({ text, handleForward, handleBack, primary = false, palette }) {
     const primaryColorArr = Array.isArray(palette.primary)
         ? palette.primary
-        : [palette.primary, palette.primary]
-
+        : [palette, palette]
     return (
         primary
             ? (

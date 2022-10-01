@@ -6,7 +6,6 @@ import Button from '../components/global-components/forms/Button'
 
 export default function QuestionFooter({ palette, handleBack, handleForward, totalQuestions, confirmation = false }) {
 
-
     // if (confirmation) return (
     //     <View style={{ width: '100%', marginVertical: 25 }}>
     //         <Button

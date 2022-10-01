@@ -5,7 +5,7 @@ import HomeScreen from "./screens/HomeSreen";
 import NavigationScreen from "./screens/NavigationScreen";
 import QuestionScreen from "./screens/QuestionScreen";
 import IntroScreen from './screens/IntroScreen';
-import { useFonts, Nunito_400Regular } from "@expo-google-fonts/nunito";
+import { Nunito_400Regular } from "@expo-google-fonts/nunito";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeModules, Platform } from "react-native";
 import { LanguageContext } from "./contexts/LanguageContext";
@@ -48,7 +48,6 @@ export default function App() {
       // error reading value
     }
   }
-  const [fontsLoaded] = useFonts({ Nunito_400Regular });
 
   return (
     <NavigationContainer>

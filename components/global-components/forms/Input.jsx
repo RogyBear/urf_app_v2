@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         fontSize: 16,
-        fontFamily: 'Nunito_400Regular',
+        fontFamily: 'Nunito',
         border: '1px solid #DBECFE',
         gap: 10
     }

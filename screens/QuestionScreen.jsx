@@ -14,8 +14,10 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import QuestionFooter from "../components/QuestionsFooter";
 import QuestionHeader from "../components/QuestionsHeader";
+import BasicQuestion from "../components/screens/QuestionScreen/BasicQuestion";
 
 // import ImageUpload from "../global-components/ImageUpload";
 
@@ -37,7 +39,18 @@ const Stack = createNativeStackNavigator();
 //     );
 // }
 
-const Item = ({ question }) => { // QUestion Template
+const Item = ({ question, type }) => {
+  const handleComponentRender = () => {
+    switch (type) {
+      case "basic":
+        return <BasicQuestion question={question} />;
+      case "dropdown":
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <View
       style={{
@@ -46,31 +59,7 @@ const Item = ({ question }) => { // QUestion Template
         width: Dimensions.get("window").width,
       }}
     >
-      {/* Giant switch statement */}
-   {/* <input type='text' name='theInput' value='test' onChange={(e)=>{
-      const {name, value} = e.target;
-      setValue((prevState)=> ({...prevState, [name] : value}))
-   }}/> */}
-{/* 
-      switch(){
-        case 'basic': <Component/>
-        break;
-        case 'dropdown': <Component/>
-        break;
-        case 'multipleChoice': <Component/>
-        break;
-        case 'basic': <Component/>
-        break;
-        case 'basic': <Component/>
-        break;
-        case 'basic': <Component/>
-        break;
-      } */}
-      <Text style={{ fontFamily: 'Nunito', color: '#082844', fontSize: 28, fontWeight: '700'}}>{question}</Text>
-      <TextInput
-        style={{ padding: 15, fontSize: 18, borderColor: "gray", borderWidth: 1, backgroundColor: '#FFF', borderRadius: 20 }}
-        // onChangeText={onChangeText}
-      />
+      {handleComponentRender()}
     </View>
   );
 };
@@ -225,16 +214,28 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
   //         confirmation: true
   //     }
   // ]
-
+  
   const renderItem = ({ item }) => {
-    return <Item question={item.question} />;
+    return <Item question={item.question} type={item.type} />;
   };
+  const handlePositionSave = async () => {
 
+    try {
+      await AsyncStorage.setItem(
+        "@personalInformation",
+        (index).toString()
+      );
+    } catch (e) {
+      // saving error
+    }
+  };
   const handleBack = () => {
+    handlePositionSave();
     if (index === 0) return;
     setIndex(index - 1);
   };
   const handleForward = () => {
+    handlePositionSave();
     if (index === route.params.questions.length - 1) return;
     setIndex(index + 1);
   };
@@ -248,8 +249,6 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
 
   return (
     <SafeAreaView
-      // source={require(`../assets/backgrounds/background-blue.png`)}
-      // resizeMode="cover"
       style={[
         styles.background,
         { backgroundColor: route.params.palette.secondary },
@@ -258,7 +257,7 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
       <View style={styles.innerBackground}>
         {/* setHelp={setHelp} */}
         <QuestionHeader
-          color={route.params.palette.primary[1]}
+          palette={route.params.palette}
           progress={index / (route.params.questions.length - 1)}
           goBack={goBack}
         />
@@ -267,12 +266,16 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
           scrollEnabled={false}
           horizontal
           data={route.params.questions}
+          initialScrollIndex={index}
+          onScrollToIndexFailed={
+            (info)=>{ console.log(info)}
+          }
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           snapToAlignment="start"
           decelerationRate={"fast"}
           snapToInterval={Dimensions.get("window").width}
-          contentContainerStyle={{  }}
+          contentContainerStyle={{}}
           style={{
             height: Dimensions.get("window").height,
             width: Dimensions.get("window").width,
