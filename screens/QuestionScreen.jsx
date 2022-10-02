@@ -1,43 +1,24 @@
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useContext, useRef, useState } from "react";
 import {
   View,
-  Button,
-  Text,
   SafeAreaView,
-  ImageBackground,
   StyleSheet,
   Dimensions,
   FlatList,
-  TextInput,
-  TouchableOpacity,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import QuestionFooter from "../components/QuestionsFooter";
 import QuestionHeader from "../components/QuestionsHeader";
 import BasicQuestion from "../components/screens/QuestionScreen/BasicQuestion";
+import { DataContext } from "../contexts/DataContext";
+import { BASIC_INFO } from "../utils/constants";
 
 // import ImageUpload from "../global-components/ImageUpload";
 
 const Stack = createNativeStackNavigator();
-
-// function TestScreen({route, navigation}: TestProps) {
-
-//     return (
-//         <View  style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//             {/* {route.params.question.children}
-//             <Text>{route.params.question.question}</Text> */}
-//             <Button title="Pop" onPress={()=>{
-//                 navigation.pop()
-//             }} />
-//             <Button title="Navigate" onPress={()=>{
-//                 navigation.navigate(`screen${route.params.nextScreen}`)
-//             }} />
-//         </View>
-//     );
-// }
 
 const Item = ({ question, type }) => {
   const handleComponentRender = () => {
@@ -65,178 +46,22 @@ const Item = ({ question, type }) => {
 };
 
 const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
-  const [answers, setAnswers] = useState();
   const ref = useRef(null);
-  const [index, setIndex] = useState(0);
-  // const confirmationSections = useMemo(() => {
-  //     return [
-  //         {
-  //             title: 'Особиста інфомація',
-  //             info: ["Тарас Шевченко", "+38 (098) 876 78 76", "taras_shevchenko@gmail.com"] // answers?.name, answers?.phone, answers?.email
-  //         },
-  //         {
-  //             title: 'Мови',
-  //             info: ["Українська — рідна", "Англійська — В2 Upper-Intermediate", "Німецька — A2 Grundlagen"]
-  //         },
-  //         {
-  //             title: 'Посада, на яку претендуєте',
-  //             info: ['Вчитель української мови та літератури']
-  //         },
-  //         {
-  //             title: 'Фото',
-  //             component: <ImageUpload />
-  //         }
-  //     ]
-  // }, [answers])
+  const { progress, storeData } = useContext(DataContext);
+  const [index, setIndex] = useState(progress[route.params.key]);
 
-  // const questions = [
-  //     {
-  //         id: 'test1',
-  //         question: "Вкажіть ваше ім'я та прізвище",
-  //         // children: (
-  //         //     <Input
-  //         //         key="name"
-  //         //         placeholder='Наприклад, Тарас Шевченко'
-  //         //         // value={answers?.name}
-  //         //         multiline
-  //         //         handleBlur={(newInput: string) => {}}
-  //         //         // style={styles.input}
-  //         //     />
-  //         // )
-  //         // setAnswers(a  => ({ ...a, name: newInput }))
-  //     },
-  //     {
-  //         id: 'test2',
-  //         question: "Вкажіть ваш номер телефону",
-  //         help: "Тут тобі потрібно ввести номер мобільного телефону, щоб роботодавець міг з тобою зв’язатися.",
-  //         // children: (
-  //         //     <Input
-  //         //         key="phone"
-  //         //         placeholder='Наприклад, +38 (098) 987 76 65'
-  //         //         // value={answers?.phone}
-  //         //         multiline
-  //         //         handleBlur={(newInput: string) => {}}
-  //         //         // style={styles.input}
-  //         //     />
-  //         //     // setAnswers(a => ({ ...a, phone: newInput }))
-  //         // )
-  //     },
-  //     {
-  //         id: 'test3',
-  //         question: "Вкажіть ваш e-mail",
-  //         // children: (
-  //         //     <Input
-  //         //         key="email"
-  //         //         placeholder='Наприклад, example@gmail.com'
-  //         //         value={answers?.email}
-  //         //         multiline
-  //         //         handleBlur={(newInput: string) => setAnswers(a => ({ ...a, email: newInput }))}
-  //         //         style={styles.input}
-  //         //     />
-  //         // )
-  //     },
-  //     {
-  //         id: 'test4',
-  //         question: "Оберіть мови, якими ви володієте",
-  //         // children: (
-  //         //     <View style={{ marginTop: 10, alignItems: 'center' }}>
-  //         //         {
-  //         //             answers?.languages && answers.languages.length > 0
-  //         //                 ? answers?.languages?.map((language, idx) => (
-  //         //                     <Dropdown
-  //         //                         menuItems={
-  //         //                             Object
-  //         //                                 .keys(Languages)
-  //         //                                 .filter(key => !answers?.languages?.includes(key))
-  //         //                                 .map(key => ({ title: Languages[key as keyof object], value: key }))
-  //         //                         }
-  //         //                         onPress={newVal => updateLanguages(newVal, idx)}
-  //         //                         placeholder={language ? Languages[language as keyof object] : "Оберіть мову"}
-  //         //                         style={{ zIndex: '-' + idx }}
-  //         //                         key={language || idx}
-  //         //                     />
-  //         //                 ))
-  //         //                 : <Dropdown
-  //         //                     menuItems={
-  //         //                         Object
-  //         //                             .keys(Languages)
-  //         //                             .filter(key => !answers?.languages?.includes(key))
-  //         //                             .map(key => ({ title: Languages[key as keyof object], value: key }))
-  //         //                     }
-  //         //                     onPress={newVal => updateLanguages(newVal)}
-  //         //                     placeholder="Оберіть мову"
-  //         //                 />
-  //         //         }
-  //         //         {
-  //         //             (!answers?.languages || answers.languages.length < 3) &&
-  //         //             <Button
-  //         //                 primary
-  //         //                 onPress={() => setAnswers(a => ({ ...a, languages: [...(a?.languages || []), ""] }))}
-  //         //                 style={{ width: 200, marginTop: 30 }}
-  //         //                 palette={{ primary: ['#FED255', '#F4BF2A'] }}
-  //         //             >
-  //         //                 <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-  //         //                     <Ionicons name='add' color="white" size={25} style={{ marginRight: 10 }} />
-  //         //                     <Text style={{ color: 'white' }}>Добавити мову</Text>
-  //         //                 </View>
-  //         //             </Button>
-  //         //         }
-  //         //     </View>
-  //         // )
-  //     },
-  //     {
-  //         id: 'test5',
-  //         question: "Додайте своє фото",
-  //         // children: (
-  //         //     <ImageUpload uploadStyles={{ marginTop: 50 }} />
-  //         // )
-  //     },
-  //     {
-  //         id: 'test6',
-  //         question: "Вкажіть посаду, на яку ви претендуєте",
-  //         // children: (
-  //         //     <Input
-  //         //         key="position"
-  //         //         placeholder='Наприклад, вчитель української мови та літератури...'
-  //         //         value={answers?.position}
-  //         //         multiline
-  //         //         handleBlur={(newInput: string) => setAnswers(a => ({ ...a, position: newInput }))}
-  //         //         style={styles.input}
-  //         //     />
-  //         // )
-  //     },
-  //     {
-  //         id: 'test7',
-  //         question: "Давайте перевіримо ваші відповіді",
-  //         // children: (
-  //         //     <QuestionConfirmationSections confSections={confirmationSections} />
-  //         // ),
-  //         confirmation: true
-  //     }
-  // ]
-  
+
   const renderItem = ({ item }) => {
     return <Item question={item.question} type={item.type} />;
   };
-  const handlePositionSave = async () => {
 
-    try {
-      await AsyncStorage.setItem(
-        "@personalInformation",
-        (index).toString()
-      );
-    } catch (e) {
-      // saving error
-    }
-  };
   const handleBack = () => {
-    handlePositionSave();
     if (index === 0) return;
     setIndex(index - 1);
   };
   const handleForward = () => {
-    handlePositionSave();
     if (index === route.params.questions.length - 1) return;
+    storeData(route.params.key, index + 1);
     setIndex(index + 1);
   };
 
@@ -267,9 +92,10 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
           horizontal
           data={route.params.questions}
           initialScrollIndex={index}
-          onScrollToIndexFailed={
-            (info)=>{ console.log(info)}
-          }
+          onScrollToIndexFailed={(info) => {
+            // console.log(info);
+            setIndex(progress[route.params.key]);
+          }}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           snapToAlignment="start"

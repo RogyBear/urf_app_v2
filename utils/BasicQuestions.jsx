@@ -1,21 +1,21 @@
+import { BASIC_INFO } from "./constants";
 
 
 export const basicQuestions =  {
     id: "1",
-    section: "personalInformation",
+    key: [BASIC_INFO],
     title: "Базова інформація",
     palette: {
       primary: ["#65ADEE", "#3599F3"],
       secondary: "#EBF5FF",
     },
     icon: "",
-    progress: 0.5, // Will be in context
     questions: [
       {
         id: "test1",
         type: "basic",
         section: "",
-        question: "THis is question one",
+        question: "This is question one",
         // children: (
         //     <Input
         //         key="name"

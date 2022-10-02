@@ -1,19 +1,17 @@
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ACHIEVMENTS, BASIC_INFO, EDUCATION, PORTFOLIO, SKILLS, WORK } from "../utils/constants";
+import {
+  ACHIEVMENTS,
+  BASIC_INFO,
+  EDUCATION,
+  PORTFOLIO,
+  SKILLS,
+  WORK,
+} from "../utils/constants";
 
-export const DataContext = createContext();
+export const AnswersContext = createContext();
 
-export const DataProvider = ({ value, children }) => {
-  const [progress, setProgress] = useState({
-    [BASIC_INFO]: 0,
-    [EDUCATION]: 0,
-    [WORK]: 0,
-    [PORTFOLIO]: 0,
-    [SKILLS]: 0,
-    [ACHIEVMENTS]: 0,
-  });
-
+export const AnswersProvider = ({ value, children }) => {
   const storeData = async (name, value) => {
     let obj = { ...progress, [name]: value };
     let objStr = JSON.stringify(obj);
@@ -28,7 +26,7 @@ export const DataProvider = ({ value, children }) => {
   };
   const getData = async () => {
     try {
-        // await AsyncStorage.setItem("@progress", JSON.stringify(progress)); // DATA RESET
+      // await AsyncStorage.setItem("@progress", JSON.stringify(progress)); // DATA RESET
       const value = await AsyncStorage.getItem("@progress");
       // set variable with the basic information
       value && setProgress(JSON.parse(value));
@@ -44,8 +42,8 @@ export const DataProvider = ({ value, children }) => {
   }, []);
 
   return (
-    <DataContext.Provider value={{ progress, setProgress, storeData }}>
+    <AnswersContext.Provider value={{ progress, setProgress, storeData }}>
       {children}
-    </DataContext.Provider>
+    </AnswersContext.Provider>
   );
 };

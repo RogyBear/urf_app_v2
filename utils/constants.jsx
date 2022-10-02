@@ -1,0 +1,6 @@
+export const BASIC_INFO = "basicInfo"
+export const EDUCATION = "education"
+export const ACHIEVMENTS = "achievments"
+export const PORTFOLIO = "portfolio"
+export const SKILLS = "skills"
+export const WORK = "work"
