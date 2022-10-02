@@ -8,15 +8,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { NativeModules, Platform } from "react-native";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { DataProvider } from "./contexts/DataContext";
+import { AnswersProvider } from "./contexts/AnswersContext";
 
 const Stack = createNativeStackNavigator();
-
-const getFonts = async () => {
-  await Font.loadAsync({
-    Nunito: require("./assets/fonts/Nunito-Regular.ttf"),
-    // "nunito-bold": require("./assets/fonts/Nunito-Bold.ttf"),
-  });
-};
 
 export default function App() {
   // Sets the Device Language
@@ -30,18 +24,21 @@ export default function App() {
   // // setLocale(deviceLanguage)
   // console.log(deviceLanguage);
 
-
-  const [fontsLoaded] = useFonts({'Nunito': require("./assets/fonts/Nunito-Regular.ttf")});
+  const [fontsLoaded] = useFonts({
+    Nunito: require("./assets/fonts/Nunito-Regular.ttf"),
+  });
 
   if (!fontsLoaded) {
-    return null;  
+    return null;
   }
   return (
     <DataProvider>
-      <LanguageProvider>
-        <Main />
-      </LanguageProvider>
-    </DataProvider> 
+      <AnswersProvider>
+        <LanguageProvider>
+          <Main />
+        </LanguageProvider>
+      </AnswersProvider>
+    </DataProvider>
   );
 }
 

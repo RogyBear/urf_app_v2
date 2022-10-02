@@ -20,11 +20,12 @@ import { BASIC_INFO } from "../utils/constants";
 
 const Stack = createNativeStackNavigator();
 
-const Item = ({ question, type }) => {
+const Item = ({ item, questionKey }) => {
+  console.log(item)
   const handleComponentRender = () => {
-    switch (type) {
+    switch (item.type) {
       case "basic":
-        return <BasicQuestion question={question} />;
+        return <BasicQuestion item={item} questionKey={questionKey} />;
       case "dropdown":
         break;
       default:
@@ -50,9 +51,10 @@ const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
   const { progress, storeData } = useContext(DataContext);
   const [index, setIndex] = useState(progress[route.params.key]);
 
-
   const renderItem = ({ item }) => {
-    return <Item question={item.question} type={item.type} />;
+    return (
+      <Item item={item} questionKey={route.params.key} />
+    );
   };
 
   const handleBack = () => {

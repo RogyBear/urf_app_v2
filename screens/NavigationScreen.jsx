@@ -12,9 +12,7 @@ import { basicQuestions } from "../utils/BasicQuestions";
 import { DataContext } from "../contexts/DataContext";
 
 function Item({ id, title, palette, questionsLength, handlePress }) {
-  const [answers, setAnswers] = useState();
   const { progress } = useContext(DataContext);
-  // const isFocused = useIsFocused();
   return (
     <TouchableOpacity onPress={handlePress} style={{}}>
       <View
@@ -51,15 +49,12 @@ function Item({ id, title, palette, questionsLength, handlePress }) {
 }
 
 const NavigationScreen = ({ navigation }) => {
-  const [answers, setAnswers] = useState();
-  const [index, setIndex] = useState(0);
-  
   const DATA = [
     basicQuestions,
     {
       id: "2",
       title: "Освіта",
-      key: 'education',
+      key: "education",
       palette: {
         primary: ["#FED255", "#F4BF2A"],
         secondary: "#FFF4E1",
@@ -869,7 +864,6 @@ const NavigationScreen = ({ navigation }) => {
     //   ],
     // },
   ];
-
 
   const renderItem = ({ item }) => {
     const { palette, questions, key } = item;

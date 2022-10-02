@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   ACHIEVMENTS,
@@ -12,14 +12,23 @@ import {
 export const AnswersContext = createContext();
 
 export const AnswersProvider = ({ value, children }) => {
-  const storeData = async (name, value) => {
-    let obj = { ...progress, [name]: value };
+  const [answer, setAnswer] = useState({
+    [BASIC_INFO]: {},
+    [EDUCATION]: {},
+    [WORK]: {},
+    [PORTFOLIO]: {},
+    [SKILLS]: {},
+    [ACHIEVMENTS]: {},
+  });
+
+  const saveInput = async (name, index, value) => {
+    let obj = { ...answer, [name]: {...answer[name],[index]: value} };
     let objStr = JSON.stringify(obj);
     let res;
     try {
-      await AsyncStorage.setItem("@progress", objStr);
-      res = await AsyncStorage.getItem("@progress");
-      setProgress(JSON.parse(res));
+      await AsyncStorage.setItem("@answers", objStr);
+      res = await AsyncStorage.getItem("@answers");
+      setAnswer(JSON.parse(res))
     } catch (e) {
       // saving error
     }
@@ -27,9 +36,9 @@ export const AnswersProvider = ({ value, children }) => {
   const getData = async () => {
     try {
       // await AsyncStorage.setItem("@progress", JSON.stringify(progress)); // DATA RESET
-      const value = await AsyncStorage.getItem("@progress");
+      const value = await AsyncStorage.getItem("@answers");
       // set variable with the basic information
-      value && setProgress(JSON.parse(value));
+      value && setAnswer(JSON.parse(value));
     } catch (e) {
       // error reading value
       return;
@@ -42,8 +51,6 @@ export const AnswersProvider = ({ value, children }) => {
   }, []);
 
   return (
-    <AnswersContext.Provider value={{ progress, setProgress, storeData }}>
-      {children}
-    </AnswersContext.Provider>
+    <AnswersContext.Provider value={{answer ,setAnswer, saveInput}}>{children}</AnswersContext.Provider>
   );
 };
