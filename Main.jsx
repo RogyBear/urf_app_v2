@@ -57,7 +57,7 @@ export default function App() {
         }}
       >
         {/* {introComplete == 'false' && <Stack.Screen name="IntroScreen" component={IntroScreen} />} */}
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
         <Stack.Screen name="QuestionScreen" component={QuestionScreen} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />

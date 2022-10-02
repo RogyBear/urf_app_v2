@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Text, View, SafeAreaView, StatusBar, Button } from "react-native";
 import IntroScreen from "./IntroScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
+import { LinearGradient } from "expo-linear-gradient";
 
 const HomeScreen = ({ navigation, ...props }) => {
   const [introComplete, setIntroComplete] = useState();
@@ -14,28 +13,36 @@ const HomeScreen = ({ navigation, ...props }) => {
       // const value = await AsyncStorage.getItem("@locale");
       const res = await AsyncStorage.getItem("@introComplete");
       setIntroComplete(res);
-      setLoading(false)
+      setLoading(false);
     } catch (e) {
       // error reading value
     }
   };
   useEffect(() => {
     getData();
-    
   }, []);
 
-  
-  return (introComplete == "false" ? (
+  return introComplete == "false" ? (
     <IntroScreen setIntroComplete={setIntroComplete} />
   ) : (
-    <View>
+    <SafeAreaView>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Text>HomeScreen</Text>
-        <Button title="Go to Nav" onPress={()=>navigation.navigate('NavigationScreen')} />
-      </SafeAreaView>
-    </View>
-  ))
+      <View style={{paddingHorizontal: 10}}>
+        <LinearGradient colors={["#65ADEE", "#3599F3"]}>
+          <Button
+            title="Go to Nav"
+            onPress={() => navigation.navigate("NavigationScreen")}
+          />
+        </LinearGradient>
+        <LinearGradient colors={["#ABD777", "#91C455"]}>
+          <Button
+            title="Go to Nav"
+            onPress={() => navigation.navigate("NavigationScreen")}
+          />
+        </LinearGradient>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default HomeScreen;
