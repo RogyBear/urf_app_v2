@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./screens/HomeSreen";
+import HomeScreen from "./screens/HomeScreen";
 import NavigationScreen from "./screens/NavigationScreen";
 import QuestionScreen from "./screens/QuestionScreen";
 import IntroScreen from './screens/IntroScreen';
@@ -53,7 +53,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
         }}
       >
         {/* {introComplete == 'false' && <Stack.Screen name="IntroScreen" component={IntroScreen} />} */}
