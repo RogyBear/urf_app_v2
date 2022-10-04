@@ -7,7 +7,7 @@ import { useFonts, Nunito_400Regular } from "@expo-google-fonts/nunito";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeModules, Platform } from "react-native";
 import { LanguageProvider } from "./contexts/LanguageContext";
-import { DataProvider } from "./contexts/DataContext";
+import { ProgressProvider } from "./contexts/ProgressContext";
 import { AnswersProvider } from "./contexts/AnswersContext";
 
 const Stack = createNativeStackNavigator();
@@ -32,13 +32,13 @@ export default function App() {
     return null;
   }
   return (
-    <DataProvider>
+    <ProgressProvider>
       <AnswersProvider>
         <LanguageProvider>
           <Main />
         </LanguageProvider>
       </AnswersProvider>
-    </DataProvider>
+    </ProgressProvider>
   );
 }
 

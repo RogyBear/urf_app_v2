@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import QuestionFooter from "../components/QuestionsFooter";
 import QuestionHeader from "../components/QuestionsHeader";
 import BasicQuestion from "../components/screens/QuestionScreen/BasicQuestion";
-import { DataContext } from "../contexts/DataContext";
+import { ProgressContext } from "../contexts/ProgressContext";
 import { BASIC_INFO } from "../utils/constants";
 
 // import ImageUpload from "../global-components/ImageUpload";
@@ -21,7 +21,6 @@ import { BASIC_INFO } from "../utils/constants";
 const Stack = createNativeStackNavigator();
 
 const Item = ({ item, questionKey }) => {
-  console.log(item)
   const handleComponentRender = () => {
     switch (item.type) {
       case "basic":
@@ -48,7 +47,7 @@ const Item = ({ item, questionKey }) => {
 
 const QuestionTemplateScreen = ({ route, navigation: { goBack } }) => {
   const ref = useRef(null);
-  const { progress, storeData } = useContext(DataContext);
+  const { progress, storeData } = useContext(ProgressContext);
   const [index, setIndex] = useState(progress[route.params.key]);
 
   const renderItem = ({ item }) => {

@@ -11,6 +11,8 @@ import { NativeModules, Platform } from "react-native";
 import { LanguageContext } from "./contexts/LanguageContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SettingsScreen from "./screens/SettingsScreen";
+import ViewPDF from "./screens/ViewPDF";
+import SelectPDF from "./screens/SelectPDF";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +63,8 @@ export default function App() {
         <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
         <Stack.Screen name="QuestionScreen" component={QuestionScreen} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+        <Stack.Screen name="ViewPDF" component={ViewPDF} />
+        <Stack.Screen name="SelectPDF" component={SelectPDF} />
       </Stack.Navigator>
     </NavigationContainer>
   );
